@@ -6,14 +6,14 @@ import 'package:social_platform_example/features/feed/domain/repositories/feed_r
 import 'package:social_platform_example/features/feed/domain/usecases/get_pins_use_case.dart';
 import 'package:social_platform_example/core/security/secure_storage_service.dart';
 import 'package:social_platform_example/features/auth/data/datasources/secure_storage_token_source.dart';
-import 'package:social_platform_example/features/auth/data/datasources/token_data_source.dart';
-import 'package:social_platform_example/features/auth/data/datasources/auth_data_source.dart';
+import 'package:social_platform_example/features/auth/data/datasources/local_token_data_source.dart';
 import 'package:social_platform_example/features/auth/data/datasources/in_memory_data_source.dart';
 import 'package:social_platform_example/features/auth/domain/repositories/auth_repository.dart';
 import 'package:social_platform_example/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:social_platform_example/features/auth/domain/usecases/login_use_case.dart';
+import 'package:social_platform_example/features/auth/domain/usecases/refresh_token_use_case.dart';
+import 'package:social_platform_example/features/auth/domain/usecases/restore_session_use_case.dart';
 import 'package:social_platform_example/features/auth/domain/usecases/logout_use_case.dart';
-import 'package:social_platform_example/features/auth/domain/usecases/check_auth_use_case.dart';
 import 'package:social_platform_example/features/feed/presentation/cubit/feed_cubit.dart';
 import 'package:social_platform_example/features/profile/data/datasources/likes_data_source.dart';
 import 'package:social_platform_example/features/profile/data/datasources/likes_count_data_source.dart';
@@ -27,6 +27,15 @@ import 'package:social_platform_example/features/profile/domain/usecases/get_lik
 import 'package:social_platform_example/features/profile/domain/usecases/get_profile_use_case.dart';
 import 'package:social_platform_example/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:social_platform_example/features/profile/presentation/cubit/liked_pins_cubit.dart';
+import 'package:social_platform_example/features/auth/domain/repositories/token_repository.dart';
+import 'package:social_platform_example/features/auth/domain/repositories/token_repository.dart';
+import 'package:social_platform_example/features/auth/data/repositories/token_repository_impl.dart';
+import 'package:social_platform_example/features/auth/data/datasources/local_token_data_source.dart';
+import 'package:social_platform_example/features/auth/data/datasources/secure_storage_token_source.dart';
+import 'package:social_platform_example/features/auth/data/datasources/remote_token_data_source.dart';
+import 'package:social_platform_example/features/auth/data/datasources/in_memory_token_data_source.dart';
+
+
 
 final sl = GetIt.instance;   //глобальный экземпляр локатора
 
@@ -50,18 +59,22 @@ Future<void> setupDependencies() async {
           () => SecureStorageService(),
   );
 
-  sl.registerLazySingleton<TokenDataSource>(
-    () => SecureStorageTokenSource(secureStorage: sl<SecureStorageService>()),
+  sl.registerLazySingleton<LocalTokenDataSource>(
+      () => SecureStorageTokenSource(secureStorage: sl<SecureStorageService>())
   );
 
-  sl.registerLazySingleton<AuthDataSource>(
-          () => InMemoryAuthDataSource()
+  sl.registerLazySingleton<TokenRepository>(
+    () => TokenRepositoryImpl(localTokenDataSource: sl()),
+  );
+
+  sl.registerLazySingleton<RemoteTokenDataSource>(
+          () => InMemoryTokenDataSource()
   );
 
   sl.registerLazySingleton<AuthRepository>(
         () => AuthRepositoryImpl(
-      authDataSource: sl(),
-      tokenDataSource: sl(),
+      remoteTokenDataSource: sl(),
+      tokenRepository: sl(),
     ),
   );
 
@@ -75,7 +88,8 @@ Future<void> setupDependencies() async {
 
   sl.registerLazySingleton(() => LoginUseCase(authRepository: sl()));
   sl.registerLazySingleton(() => LogoutUseCase(authRepository: sl()));
-  sl.registerLazySingleton(() => CheckAuthUseCase(authRepository: sl()));
+  sl.registerLazySingleton(() => RefreshTokenUseCase(authRepository: sl()));
+  sl.registerLazySingleton(() => RestoreSessionUseCase(authRepository: sl()));
 
   sl.registerLazySingleton<LikesDataSource>(
         () => InMemoryLikesDataSource(),

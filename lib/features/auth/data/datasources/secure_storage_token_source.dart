@@ -1,47 +1,40 @@
-import 'package:social_platform_example/features/auth/domain/entities/auth_token.dart';
+//обновление датасорса для работы с Secure Storage
 import 'package:social_platform_example/core/security/secure_storage_service.dart';
-import 'token_data_source.dart';
-class SecureStorageTokenSource implements TokenDataSource{
+import 'local_token_data_source.dart';
+
+class SecureStorageTokenSource implements LocalTokenDataSource{
 
   final SecureStorageService _secureStorage;
 
-  static const _tokenKey = 'auth_token';
-  static const _userIdKey = 'auth_user_id';
+  static const _accessKey = 'access_token';
+  static const _refreshKey = 'refresh_token';
 
   SecureStorageTokenSource({required SecureStorageService secureStorage})
       : _secureStorage = secureStorage;
 
   @override
-  Future<void> saveToken(AuthToken token) async {
-    await _secureStorage.write(_tokenKey, token.value);
+  Future<void> saveAccessToken(String token) async {
+    await _secureStorage.write(_accessKey, token);
   }
 
   @override
-  Future<AuthToken?> getToken() async{
-    final authToken = await _secureStorage.read(_tokenKey);
-    if (authToken != null){
-      return AuthToken(value: authToken);
-    }
-    return null;
+  Future<String?> getAccessToken() => _secureStorage.read(_accessKey);
+
+  @override
+  Future<void> clearAccessToken() async{
+    await _secureStorage.delete(_accessKey);
   }
 
   @override
-  Future<void> clearToken() async{
-    await _secureStorage.delete(_tokenKey);
+  Future<void> saveRefreshToken(String token) async{
+    await _secureStorage.write(_refreshKey, token);
   }
 
   @override
-  Future<void> saveUserId(String id) async {
-    await _secureStorage.write(_userIdKey, id);
-  }
+  Future<String?> getRefreshToken() => _secureStorage.read(_refreshKey);
 
   @override
-  Future<String?> getUserId() async {
-    return await _secureStorage.read(_userIdKey);
-  }
-
-  @override
-  Future<void> clearUserId() async {
-    await _secureStorage.delete(_userIdKey);
+  Future<void> clearRefreshToken() async{
+    await _secureStorage.delete(_refreshKey);
   }
 }

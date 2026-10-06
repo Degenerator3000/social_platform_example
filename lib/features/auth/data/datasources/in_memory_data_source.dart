@@ -1,11 +1,11 @@
+//временно не нужный файл. Пригодится в будущем
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
-import 'auth_data_source.dart';
 import 'package:social_platform_example/features/auth/domain/entities/auth_credentials.dart';
 import 'package:social_platform_example/features/auth/data/models/user_model.dart';
 
-class InMemoryAuthDataSource implements AuthDataSource{
+class InMemoryAuthDataSource{
 
   final List<Map<String, dynamic>> _fakeUsers = [
     {
@@ -38,7 +38,6 @@ class InMemoryAuthDataSource implements AuthDataSource{
     return sha256.convert(utf8.encode(string)).toString();
   }
 
-  @override
   Future<UserModel?> login(AuthCredentials credentials) async{
     await Future.delayed(Duration(seconds: 1));
     final userJson = _fakeUsers.where(
@@ -51,7 +50,6 @@ class InMemoryAuthDataSource implements AuthDataSource{
     return null;
   }
 
-  @override
   Future<UserModel?> getUserById(String id) async{
     await Future.delayed(Duration(seconds: 1));
     final userJson = _fakeUsers.where((x) => x['id'] == id).firstOrNull;

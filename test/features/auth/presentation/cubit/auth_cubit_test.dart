@@ -6,7 +6,7 @@ import 'package:social_platform_example/features/auth/domain/entities/auth_crede
 import 'package:social_platform_example/features/auth/domain/entities/user.dart';
 import 'package:social_platform_example/features/auth/domain/entities/login_result.dart';
 import 'package:social_platform_example/features/auth/domain/entities/auth_token.dart';
-import 'package:social_platform_example/features/auth/domain/usecases/check_auth_use_case.dart';
+import 'package:social_platform_example/features/auth/domain/usecases/validate_session_use_case.dart';
 import 'package:social_platform_example/features/auth/domain/usecases/login_use_case.dart';
 import 'package:social_platform_example/features/auth/domain/usecases/logout_use_case.dart';
 import 'package:social_platform_example/features/auth/presentation/cubit/auth_cubit.dart';

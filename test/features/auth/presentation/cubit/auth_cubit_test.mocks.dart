@@ -14,7 +14,7 @@ import 'package:social_platform_example/features/auth/domain/entities/user.dart'
     as _i9;
 import 'package:social_platform_example/features/auth/domain/repositories/auth_repository.dart'
     as _i2;
-import 'package:social_platform_example/features/auth/domain/usecases/check_auth_use_case.dart'
+import 'package:social_platform_example/features/auth/domain/usecases/validate_session_use_case.dart'
     as _i8;
 import 'package:social_platform_example/features/auth/domain/usecases/login_use_case.dart'
     as _i4;

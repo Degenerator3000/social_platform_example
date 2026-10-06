@@ -6,8 +6,11 @@ import 'package:social_platform_example/features/feed/presentation/cubit/feed_cu
 import 'package:social_platform_example/features/auth/presentation/pages/auth_page.dart';
 import 'package:social_platform_example/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:social_platform_example/features/profile/presentation/cubit/liked_pins_cubit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  await dotenv.load();
+
   WidgetsFlutterBinding.ensureInitialized();
   await setupDependencies();
   runApp(const MyApp());

@@ -45,9 +45,12 @@ dependencies:
   path_provider: ^2.1.3
   flutter_secure_storage: ^9.2.2
   crypto: ^3.0.7
+  jwt_decoder: ^2.0.1
+  t_jwt: ^1.0.0
 
   # Utilities
   json_annotation: ^4.9.0
+  flutter_dotenv: ^6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +78,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:

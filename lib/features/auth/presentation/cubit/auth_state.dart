@@ -1,30 +1,32 @@
 import 'package:equatable/equatable.dart';
-import 'package:social_platform_example/features/auth/domain/entities/user.dart';
 
-abstract class AuthState extends Equatable {
+sealed class AuthState extends Equatable {
   const AuthState();
 }
 
-class AuthInitial extends AuthState{
+final class AuthInitial extends AuthState{
   const AuthInitial();
   @override
   List<Object> get props => [];
 }
 
-class AuthLoading extends AuthState {
+final class AuthLoading extends AuthState {
   const AuthLoading();
   @override
   List<Object> get props => [];
 }
 
-class AuthAuthenticated extends AuthState {
-  final User user;
-  const AuthAuthenticated({required this.user});
+final class Authenticated extends AuthState {
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [];
 }
 
-class AuthError  extends AuthState {
+final class Unauthenticated extends AuthState {
+  @override
+  List<Object> get props => [];
+}
+
+final class AuthError  extends AuthState {
   final String message;
   const AuthError ({required this.message});
   @override

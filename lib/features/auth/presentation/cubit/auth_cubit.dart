@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_platform_example/features/auth/domain/usecases/login_use_case.dart';
 import 'package:social_platform_example/features/auth/domain/usecases/logout_use_case.dart';
-import 'package:social_platform_example/features/auth/domain/usecases/check_auth_use_case.dart';
+import 'package:social_platform_example/features/auth/domain/usecases/restore_session_use_case.dart';
+import 'package:social_platform_example/features/auth/domain/usecases/refresh_token_use_case.dart';
 import 'package:social_platform_example/features/auth/domain/entities/auth_credentials.dart';
 import 'auth_state.dart';
 
